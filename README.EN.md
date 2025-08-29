@@ -9,7 +9,7 @@ Integrated with common web project components, providing basic web functionality
 - database: [MySQL / sqlalchemy](https://github.com/sqlalchemy/sqlalchemy)
 - web framework: [FastAPI](https://github.com/fastapi/fastapi)
 - log (integrated trace id): [loguru](https://github.com/Delgan/loguru)
-- three party notification component: [Enterprise Wechat](https://developer.work.weixin.qq.com/document/path/99110)
+- third party notification component: [Enterprise Wechat](https://developer.work.weixin.qq.com/document/path/99110)
 
 # Project Structure
 
