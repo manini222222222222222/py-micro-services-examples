@@ -5,6 +5,8 @@ from fastapi.responses import JSONResponse
 from app.common.logger import log
 from app.config.nacos_config import get_config
 from app.config.trace.trace_id_config import TraceIdMiddleware
+from app.nacos_.controller import router as nacos_router
+from app.test_business.controller import router as test_router
 
 """
 Initialize global nacos configuration at project startup
@@ -21,8 +23,9 @@ def create_app():
     app.add_middleware(TraceIdMiddleware)
 
     # register routes (Routers for different business modules)
-    # app.include_router(consumption_service.router)
-    # app.include_router(route2)
+    app.include_router(nacos_router)
+    app.include_router(test_router)
+    # app.include_router(...)
 
     # global exception interception
     @app.exception_handler(Exception)

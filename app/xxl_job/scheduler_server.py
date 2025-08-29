@@ -30,7 +30,9 @@ def load_tasks():
         log.info(f"Loading task: {full_module_name}")
         importlib.import_module(full_module_name)
 
-
+"""
+xxl job startup func
+"""
 if __name__ == "__main__":
     load_tasks()
     # get actuator

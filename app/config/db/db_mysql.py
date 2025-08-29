@@ -9,13 +9,24 @@ from tenacity import retry, stop_after_attempt, wait_incrementing, retry_if_exce
 from app.common.logger import log
 from app.config.nacos_config import get_db_config
 
+"""
+get database connect configuration
+"""
 db_config = get_db_config()
 
-# 定义一个全局锁
+"""
+define a global lock
+"""
 _db_lock = Lock()
 
+"""
+sqlalchemy engine dictionary
+"""
 db_dict = {}
 
+"""
+create a database engine
+"""
 def get_engine(
         db: str,
         user: str,
@@ -30,20 +41,20 @@ def get_engine(
         echo: bool = False,
 ) -> Engine:
     """
-    创建并返回 SQLAlchemy Engine 对象.
+    create and return sqlalchemy engine object
 
     Args:
-        db (str): 数据库名称
-        user (str): 数据库用户名
-        password (str): 数据库密码
-        host (str): 数据库主机地址，默认 localhost
-        port (int): 数据库端口，默认 3306
-        driver (str): 数据库驱动，默认 'mysql+pymysql'
-        pool_size (int): 连接池的持久连接数量
-        max_overflow (int): 连接池溢出的临时连接数量
-        pool_timeout (int): 获取连接的超时时间（秒）
-        pool_recycle (int): 连接的最大生命周期（秒）
-        echo (bool): 是否打印 SQL 日志，默认 False
+    Db (str): database name
+    User (str): Database username
+    Password (str): database password
+    Host (str): Database host address, default localhost
+    Port (int): database port, default 3306
+    Driver (str): database driver, default 'mysql+pymysql'
+    Pool_2 (int): The number of persistent connections in the connection pool
+    Max_overflow (int): The number of temporary connections that overflow from the connection pool
+    Pool_timeout (int): Get the timeout time (in seconds) for the connection
+    Pool_decycle (int): Maximum lifecycle of the connection (in seconds)
+    Echo (boolean): Whether to print SQL logs, default False
 
     Returns:
         Engine: SQLAlchemy Engine 对象
@@ -62,7 +73,9 @@ def get_engine(
     db_dict[db] = engine
     return engine
 
-# 根据数据库名称获取链接引擎
+"""
+retrieve link engine based on database name
+"""
 def get_engine_by_db(db_name: str) -> Engine:
     if db_name is None:
         raise ValueError("db_name cannot be None")
@@ -78,8 +91,8 @@ def get_engine_by_db(db_name: str) -> Engine:
 
 
 """
-    执行sql语句-通用
-    e.g. 创建表 删除表等
+execute sql statements general
+e.g. create, delete tables etc
 """
 @retry(
     retry=retry_if_exception_type(),
@@ -95,12 +108,12 @@ def execute_sql(db_name: str, sql: str) -> bool:
             conn.commit()
         return True
     except Exception as e:
-        log.exception(f"执行sql语句失败:{str(e)}")
+        log.exception(f"failed to execute sql:{str(e)}")
         return False
 
 
 """
-    查询，结果转为DataFrame
+query and convert the result to a dataframe
 """
 @retry(
     retry=retry_if_exception_type(),
@@ -109,14 +122,13 @@ def execute_sql(db_name: str, sql: str) -> bool:
     reraise=True,
 )
 def query_mysql_to_df(db_name: str, sql: str) -> pd.DataFrame:
-    """执行 MySQL 查询并返回结果为 DataFrame。
-
+    """
+    Execute MySQL query and return the result as a DataFrame.
     Args:
-        engine: SQLAlchemy 创建的 MySQL 引擎对象。
-        sql: 要执行的 SQL 查询语句。
-
+    db_name: Database name, search for the corresponding engine based on the database name
+    sql: The SQL query statement to be executed.
     Returns:
-        查询结果，类型为 pandas.DataFrame。
+        The query result is of type pandas.DataFrame.
     """
     engine = get_engine_by_db(db_name)
     with engine.connect() as conn:
@@ -124,7 +136,7 @@ def query_mysql_to_df(db_name: str, sql: str) -> pd.DataFrame:
 
 
 """
-    查询，结果转为dict
+    query -> convert results to dict
 """
 @retry(
     retry=retry_if_exception_type(),
@@ -134,24 +146,24 @@ def query_mysql_to_df(db_name: str, sql: str) -> pd.DataFrame:
 )
 def query_mysql_to_dict(db_name: str, sql: str, params: dict = None) -> list[dict]:
     """
-        执行 MySQL 查询并直接返回字典列表。
+        Execute MySQL queries and directly return a dictionary list.
 
         Args:
-            db_name: 数据库名称，供 get_engine_by_db 获取连接引擎。
-            sql: 要执行的 SQL 查询语句。
+            db_name: The database name is used to obtain the connection engine for get_engine_by_db.
+            sql:the sql query statement to be executed
 
         Returns:
-            查询结果，类型为字典列表 [{col1: val1, col2: val2}, ...]
+            Query result, type dictionary list [{col1: val1, col2: val2},...]
         """
     engine = get_engine_by_db(db_name)
     with engine.connect() as conn:
         result = conn.execute(text(sql), params or {})
-        # 将结果行转换为字典列表
+        # convert the result row to a dictionary list
         return [dict(row) for row in result.mappings().all()]
 
 
 """
-# 更新示例
+# update example
 rows_updated = update_mysql('webgis_bi', "UPDATE user SET age = age + 1 WHERE id = :id", {'id': 1001})
 """
 @retry(
@@ -161,14 +173,14 @@ rows_updated = update_mysql('webgis_bi', "UPDATE user SET age = age + 1 WHERE id
     reraise=True,
 )
 def update_mysql(db_name: str, sql: str, params: dict = None) -> int:
-    """执行 UPDATE 或 DELETE。"""
+    """execute update or delete"""
     engine = get_engine_by_db(db_name)
     with engine.begin() as conn:
         result = conn.execute(text(sql), params or {})
         return result.rowcount
 
 """
-# 单条插入示例
+# single insertion example
 sql_insert_one = "INSERT INTO user (name, age) VALUES (:name, :age)"
 rows_inserted = insert_mysql('webgis_bi', sql_insert_one, {'name': '李四', 'age': 20})
 """
@@ -179,12 +191,12 @@ rows_inserted = insert_mysql('webgis_bi', sql_insert_one, {'name': '李四', 'ag
     reraise=True,
 )
 def insert_mysql(db_name: str, sql: str, params: dict) -> int:
-    """单条插入，无事务显式提交。"""
+    """Single insertion"""
     return update_mysql(db_name, sql, params)
 
 
 """
-# 批量插入示例
+# batch insertion example
 sql_insert_many = "INSERT INTO user (name, age) VALUES (:name, :age)"
 params_list = [{'name': '张三', 'age': 18}, {'name': '王五', 'age': 22}]
 rows_inserted = insert_batch_mysql('webgis_bi', sql_insert_many, params_list)
@@ -196,7 +208,7 @@ rows_inserted = insert_batch_mysql('webgis_bi', sql_insert_many, params_list)
     reraise=True,
 )
 def insert_batch_mysql(db_name: str, sql: str, params_list: list) -> int:
-    """批量插入"""
+    """batch insert"""
     engine = get_engine_by_db(db_name)
     with engine.begin() as conn:
         result = conn.execute(text(sql), params_list)
@@ -204,7 +216,7 @@ def insert_batch_mysql(db_name: str, sql: str, params_list: list) -> int:
 
 
 """
-    直接把dataframe数据存入数据库
+Directly store the dataframe data into the database
 """
 @retry(
     retry=retry_if_exception_type(),
@@ -213,17 +225,16 @@ def insert_batch_mysql(db_name: str, sql: str, params_list: list) -> int:
     reraise=True,
 )
 def df_to_db(df, db_name, tb_name, UNIQUE_KEY_COLUMNS):
-    '''
-     直接把dataframe数据存入数据库
-     Args:
-         df: 要存入的dataframe
-         db_name: 数据库里的库名
-         tb_name: 存入数据库的表的名字
-         UNIQUE_KEY_COLUMNS: 
-         typedict: 
-         engine_name: 
-     Returns:
-     '''
+    """
+    Directly store the dataframe data into the database
+
+    :param df: Data frame to be stored
+    :param db_name: The database name is used to obtain the connection engine for get_engine_by_db.
+    :param tb_name: database table name
+    :param UNIQUE_KEY_COLUMNS: unique index
+    :return: affect rows
+    """
+
 
     def on_duplicate_update(table, conn, keys, data_iter):
         '''
@@ -236,11 +247,11 @@ def df_to_db(df, db_name, tb_name, UNIQUE_KEY_COLUMNS):
             Column names
         data_iter : Iterable that iterates the values to be inserted
         '''
-        # 创建插入语句
+        # create insert statement
         insert_stmt = insert(table.table).values(list(data_iter))
-        # 定义冲突更新逻辑（更新除主键外的所有字段）: 冲突是指主键的值重复了
+        # Define conflict update logic (update all fields except for the primary key): Conflict refers to the value of the primary key being duplicated
         update = {col: insert_stmt.inserted[col] for col in keys if col not in UNIQUE_KEY_COLUMNS}
-        # 生成 ON DUPLICATE KEY UPDATE 语句
+        # generate on duplicate key update statement
         on_duplicate_stmt = insert_stmt.on_duplicate_key_update(**update)
         conn.execute(on_duplicate_stmt)
 

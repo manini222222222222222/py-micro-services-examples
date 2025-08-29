@@ -67,8 +67,9 @@ class NacosConfigManager:
         # manually refresh configuration
         self.fetch_config()
 
-_nacos_base_config = None
 
+"""
+Get Nacos client information for a single instance"""
 def get_nacos_client() -> NacosConfigManager:
     env = os.getenv("APP_ENV", "test")
     config = _load_config(env)
@@ -80,6 +81,8 @@ def get_nacos_client() -> NacosConfigManager:
     namespace = nacos_config.get('namespace')
     data_id = nacos_config.get('data_id')
     return NacosConfigManager(host, namespace, data_id, group, username, password)
+
+_nacos_base_config = None
 
 """
 read nacos yaml file configuration
