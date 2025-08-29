@@ -1,13 +1,12 @@
 FROM your_mirror_url
 
-WORKDIR /data
+WORKDIR /your_root_path
 
 COPY . .
 
 RUN pip install -r requirements.txt
 
-ENV TZ=Asia/Shanghai
 ENV APP_ENV=prod
-ENV LOG_PATH=/data/log
+ENV LOG_PATH=your_log_path
 
 CMD ["uvicorn", "app.web.server:create_app", "--factory", "--host", "0.0.0.0", "--port", "8848"]

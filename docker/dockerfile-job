@@ -1,14 +1,13 @@
 FROM your_mirror_url
 
-WORKDIR /data
+WORKDIR /your_root_path
 
 COPY . .
 
 RUN pip install -r requirements.txt
 
-ENV TZ=Asia/Shanghai
 ENV APP_ENV=prod
-ENV LOG_PATH=/data/log
-ENV PYTHONPATH=/data
+ENV LOG_PATH=your_log_path
+ENV PYTHONPATH=/your_root_path
 
 CMD ["python", "-m", "app.xxl_job.scheduler_server"]
