@@ -3,7 +3,7 @@ import uuid
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from app.config.trace.request_context import set_trace_id
+from app.config.trace_.request_context import set_trace_id
 
 """
 FastAPI trace related middleware

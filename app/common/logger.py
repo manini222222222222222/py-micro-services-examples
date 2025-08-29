@@ -3,7 +3,7 @@ import sys
 
 from loguru import logger
 
-from app.config.trace.request_context import get_trace_id
+from app.config.trace_.request_context import get_trace_id
 
 # log path
 filepath = os.getenv("LOG_PATH", "../../log")

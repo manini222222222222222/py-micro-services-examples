@@ -1,12 +1,14 @@
 import asyncio
-import aiohttp
 import json
 import ssl
-import certifi
-from app.config.nacos_config import get_config
-from app.common.logger import log
-from app.common.const import AlarmLevel, WechatRobotEnum
 import traceback
+
+import aiohttp
+import certifi
+
+from app.common.const import AlarmLevel, WechatRobotEnum
+from app.common.logger import log
+from app.config.nacos_config import get_config
 
 """
 Core methods for sending enterprise WeChat messages

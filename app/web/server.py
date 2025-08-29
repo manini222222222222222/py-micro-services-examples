@@ -4,9 +4,9 @@ from fastapi.responses import JSONResponse
 
 from app.common.logger import log
 from app.config.nacos_config import get_config
-from app.config.trace.trace_id_config import TraceIdMiddleware
+from app.config.trace_.trace_id_config import TraceIdMiddleware
 from app.nacos_.controller import router as nacos_router
-from app.test_business.controller import router as test_router
+from app.demo_business.controller import router as test_router
 
 """
 Initialize global nacos configuration at project startup
