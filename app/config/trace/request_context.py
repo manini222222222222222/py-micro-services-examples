@@ -1,5 +1,5 @@
-from contextvars import ContextVar
 import contextvars
+from contextvars import ContextVar
 
 trace_id_var: ContextVar[str] = ContextVar("trace")
 

@@ -1,8 +1,10 @@
 import json
+
 from pyxxl.ctx import g
+
 from app.common.logger import log
-from app.config.xxl_job_config import traced_executor as executor
 from app.config.nacos_config import get_nacos_client
+from app.config.xxl_job_config import traced_executor as executor
 # from app.common.utils.wechat_msg_util import send_markdown_template_exception_message
 # from app.common.const import WechatRobotEnum
 

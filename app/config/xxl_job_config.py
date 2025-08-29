@@ -2,12 +2,14 @@ import asyncio
 import os
 import socket
 from functools import wraps
+
+import pyxxl.xxl_client
 from pyxxl import ExecutorConfig, PyxxlRunner
 from pyxxl.ctx import g
-import pyxxl.xxl_client
+
+from app.common.logger import log
 from app.config.nacos_config import get_config
 from app.config.trace.request_context import set_trace_id
-from app.common.logger import log
 # from app.common.utils.wechat_msg_util import send_markdown_template_exception_message
 # from app.common.const import WechatRobotEnum
 

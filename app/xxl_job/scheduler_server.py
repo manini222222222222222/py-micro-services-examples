@@ -1,7 +1,8 @@
 import importlib
-from app.config.xxl_job_config import get_executor
 from importlib.resources import files
+
 from app.common.logger import log
+from app.config.xxl_job_config import get_executor
 
 """
 loading tasks

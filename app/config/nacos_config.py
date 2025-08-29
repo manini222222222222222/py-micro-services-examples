@@ -1,8 +1,10 @@
-import nacos
-from threading import Lock
-import yaml
-from app.common.logger import log
 import os
+from threading import Lock
+
+import nacos
+import yaml
+
+from app.common.logger import log
 
 # base dir
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

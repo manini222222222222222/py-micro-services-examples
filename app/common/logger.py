@@ -1,6 +1,8 @@
-import sys
-from loguru import logger
 import os
+import sys
+
+from loguru import logger
+
 from app.config.trace.request_context import get_trace_id
 
 # log path
