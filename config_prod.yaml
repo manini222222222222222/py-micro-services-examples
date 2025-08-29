@@ -1,0 +1,7 @@
+nacos:
+  host: 'your nacos host'
+  # username: 'your nacos user (It is best to use an internal network and not set account passwords in the production environment)'
+  # password: 'your nacos password (It is best to use an internal network and not set account passwords in the production environment)'
+  namespace: 'this project namespace'
+  group: 'this project group'
+  data_id: 'consistent with the project name'

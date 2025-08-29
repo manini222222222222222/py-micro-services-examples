@@ -1,0 +1,7 @@
+nacos:
+  host: 'your nacos host'
+  username: 'your nacos user'
+  password: 'your nacos password'
+  namespace: 'this project namespace'
+  group: 'this project group'
+  data_id: 'consistent with the project name'

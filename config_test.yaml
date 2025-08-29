@@ -1,0 +1,14 @@
+#nacos:
+#  host: 'your nacos host'
+#  username: 'your nacos user'
+#  password: 'your nacos password'
+#  namespace: 'this project namespace'
+#  group: 'this project group'
+#  data_id: 'consistent with the project name'
+nacos:
+  host: 'test3.cn.middle.gwdenergy.cn:8848'
+  username: 'nacos'
+  password: 'cn-test3@nacos'
+  namespace: 'algorithm'
+  group: 'test'
+  data_id: 'algorithm_service_test'
